@@ -52,3 +52,12 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    archiveClassifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
