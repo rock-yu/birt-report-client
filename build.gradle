@@ -1,0 +1,54 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.20'
+    id 'java-library'
+    id 'maven'
+}
+
+group 'com.github.rock-yu'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    enabled = true
+}
+
+compileKotlin {
+    // In Kotlin 1.1.50, nullability problems detected thanks to such annotations are by default reported as warnings.
+    // To convert them into errors, add the command line parameter -Xjsr305=strict. To disable the warnings, use -Xjsr305=ignore
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '1.8'
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjsr305=strict']
+        jvmTarget = '1.8'
+    }
+}
+dependencies {
+    // Align versions of all Kotlin components
+    implementation platform('org.jetbrains.kotlin:kotlin-bom')
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
+
+    implementation 'org.springframework:spring-web:5.2.13.RELEASE'
+    implementation 'org.slf4j:slf4j-api:1.7.30'
+
+    compileOnly 'javax.servlet:javax.servlet-api:3.0.1'
+
+    testImplementation 'javax.servlet:javax.servlet-api:3.0.1'
+    testImplementation 'org.springframework:spring-test:5.2.13.RELEASE'
+
+    // JUnit5 Jupiter
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.6.2'
+    testImplementation 'org.mockito:mockito-core:3.3.3'
+}
+
+test {
+    useJUnitPlatform()
+}
